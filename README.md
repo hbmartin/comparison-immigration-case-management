@@ -1,21 +1,8 @@
 # Immigration Case Management Software: Vendor Comparison
 
-The biggest split in this market is between **immigration-native tools**, which are built around a forms engine and case types, and **general practice-management platforms** that bolt on immigration forms. Most firms end up choosing between a strong forms engine and strong firm operations, so decide early which one you can least afford to be weak.
-
-**Scope:** Every column below can be scored from public sources — marketing and pricing pages, help centers, developer docs, trust centers and DPAs, release notes, app marketplaces, and app store listings. Nothing in the tables requires a demo, a trial, or a sales call. The questions that genuinely need hands-on time are parked in [Appendix A](#appendix-a-questions-that-need-a-demo) so they don't get quietly answered from a brochure. [Appendix B](#appendix-b-where-to-look) maps each kind of question to the source that settles it.
-
 **How to use:** Add one row per vendor in each table. Fill cells with a score and a short note, and keep a source link plus the date you checked it.
 
-| Mark | Meaning                                                      |
-| ---- | ------------------------------------------------------------ |
-| 5    | Documented in detail, with specifics you could hold them to  |
-| 4    | Documented, but thin on specifics                            |
-| 3    | Mentioned in marketing only                                  |
-| 2    | Implied or available as a paid add-on                        |
-| 1    | Explicitly not supported                                     |
-| NS   | Not stated publicly                                          |
-
-**`NS` is a finding, not a blank.** For a category a vendor competes on, silence usually means the answer is weak. Clusters of `NS` in security, API, pricing, and AI data handling are the ones that predict trouble; `NS` on a niche form is just noise.
+If you cannot find relevant information for a given cell, use `NS`. **`NS` is a finding, not a blank.** For a category a vendor competes on, silence usually means the answer is weak.
 
 ### Contents
 
@@ -54,7 +41,7 @@ One row per vendor, filled in before you score anything else. Every cell here is
 
 ---
 
-## 1. Forms Engine (usually the deciding factor)
+## 1. Forms Engine
 
 | Vendor        | Form library coverage | Edition update cadence | Single-profile data reuse | Fee and supplemental handling | Filing output | Filed-version history |
 | ------------- | --------------------- | ---------------------- | ------------------------- | ----------------------------- | ------------- | --------------------- |
@@ -97,7 +84,7 @@ A generic platform can technically hold an immigration matter while making staff
 
 ## 4. Workflow and Automation
 
-Score this against a real scenario rather than a feature list. The reference case: *an H-1B is opened for an existing employee of an existing corporate client.* From public documentation, how much of the following is automated versus clicked — send the questionnaire, request documents, assign paralegal tasks, calculate deadlines, generate drafts, route attorney review, collect signatures, file, notify stakeholders, and schedule expiration reminders?
+From public documentation, how much of the following is automated versus clicked: send the questionnaire, request documents, assign paralegal tasks, calculate deadlines, generate drafts, route attorney review, collect signatures, file, notify stakeholders, and schedule expiration reminders?
 
 | Vendor        | Workflow templates | Triggers and automation | Conditional logic | Date and deadline rules | Review routing | Bulk actions |
 | ------------- | ------------------ | ----------------------- | ----------------- | ----------------------- | -------------- | ------------ |
@@ -167,7 +154,7 @@ Efficiency differences here are larger than they look on a feature list.
 
 ## 9. AI Capabilities
 
-Don't score a product highly because the vendor says "AI." Score each capability separately; a page that says "AI-powered" without naming one is `NS` across this entire row.
+Don't score a product highly because the vendor says "AI." Score each capability separately; a page that says "AI-powered" without naming one is `NS` across this entire row. 
 
 | Vendor        | Data extraction | Summarization | Drafting | Semantic search | Classification and gap detection | RFE analysis |
 | ------------- | --------------- | ------------- | -------- | --------------- | -------------------------------- | ------------ |
@@ -201,41 +188,39 @@ Ideally a person's passport number, status, employer, position, worksite, addres
 I-129 → questionnaire → contact record → custom field → I-140 → Word template
 ```
 
-…and those copies inevitably disagree. Help-center documentation is unusually revealing here — the way articles talk about contacts, profiles, and beneficiaries shows you the underlying model.
+…and those copies inevitably disagree. Help-center documentation is unusually revealing here! The way articles talk about contacts, profiles, and beneficiaries shows you the underlying model.
 
-| Vendor        | Reusable person records | Employer hierarchy | Family relationships | Immigration history | Custom fields and objects | Bulk edit and import |
-| ------------- | ----------------------- | ------------------ | -------------------- | ------------------- | ------------------------- | -------------------- |
-| _Vendor name_ | —                       | —                  | —                    | —                   | —                         | —                    |
+| Vendor        | Reusable person records | Employer hierarchy | Family relationships | Immigration history | Custom fields and objects |
+| ------------- | ----------------------- | ------------------ | -------------------- | ------------------- | ------------------------- |
+| _Vendor name_ | —                       | —                  | —                    | —                   | —                         |
 
 - **Reusable person records:** Whether a person exists once and is linked to many matters, with passport, status, employer, position, worksite, and addresses as structured fields — or whether every matter re-collects them.
 - **Employer hierarchy:** Corporate accounts with parent/subsidiary structure, multiple worksites, and multiple contacts per account, plus multiple concurrent matters per employer.
 - **Family relationships:** Spouse and dependent links that actually drive derivative filings, rather than a free-text "relationship" field.
 - **Immigration history:** Prior petitions, approvals, entries, and status changes as dated structured records you can report on.
 - **Custom fields and objects:** Which record types accept custom fields, whether you can define new object types, whether statuses are configurable, and whether field-level permissions exist.
-- **Bulk edit and import:** Bulk editing, CSV import, and published import templates. The existence of documented import templates tells you a great deal about how structured the model underneath really is.
 
 ## 12. Reporting and Analytics
 
-Don't ask whether it "has reports." Take the questions your managing attorney or operations lead actually asks and check whether the published report list could answer them:
+Don't ask whether it "has reports." Consider the ease of answer common but specific questions such as:
 
 > How many cases are waiting on the client versus waiting on our firm? Which employees have immigration expirations in the next 120 days? What's our median time from case opening to questionnaire completion? Which cases have had no activity for 14 days? How long do attorneys take to review drafts after a paralegal submits them? What percentage of clients complete questionnaires without staff intervention? What is the average number of client follow-ups per matter type?
 
 A vendor that publishes only dashboard screenshots is a 3 at best, however good the screenshots look.
 
-| Vendor        | Standard report library | Custom report builder | Cross-object reporting | Dashboards | Scheduled delivery and export | BI and warehouse access |
-| ------------- | ----------------------- | --------------------- | ---------------------- | ---------- | ----------------------------- | ----------------------- |
-| _Vendor name_ | —                       | —                     | —                      | —          | —                             | —                       |
+| Vendor        | Standard report library | Custom report builder | Cross-object reporting | Dashboards | Scheduled delivery and export |
+| ------------- | ----------------------- | --------------------- | ---------------------- | ---------- | ----------------------------- |
+| _Vendor name_ | —                       | —                     | —                      | —          | —                             |
 
 - **Standard report library:** A published list of canned reports. Count how many of the questions above they'd answer as shipped.
 - **Custom report builder:** Whether you can build reports with your own filters and groupings, without buying vendor services each time.
 - **Cross-object reporting:** Whether a report can span matters, people, employers, tasks, and communications, or only one object at a time. This is the line between analytics and a few canned dashboards.
 - **Dashboards:** Role-based dashboards for attorneys, paralegals, and managers, plus pipeline, turnaround times, approval/RFE rates, and revenue by case type.
 - **Scheduled delivery and export:** Scheduled email delivery, CSV/Excel export, and whether exports are row-limited.
-- **BI and warehouse access:** Read-only database access, a warehouse sync, or a documented bulk-export API for Power BI, Tableau, or Snowflake. Also the escape hatch when the built-in reporting can't answer something.
 
 ## 13. Integrations and API
 
-Classify every integration as **native**, **Zapier-mediated**, or **"we have an API, build it yourself."** Vendor integration pages routinely list all three together as if they were equivalent. Even if you don't need the API today, this section determines how trapped you are later.
+Call out every integration as **native**, **Zapier-mediated**, or **"we have an API, build it yourself."** Vendor integration pages routinely list all three together as if they were equivalent. This section is crucial for long term viability.
 
 | Vendor        | Email and calendar | E-signature and payments | Accounting and storage | HRIS and identity | Public API | Webhooks and sandbox |
 | ------------- | ------------------ | ------------------------ | ---------------------- | ----------------- | ---------- | -------------------- |
@@ -290,15 +275,13 @@ You'll hold A-numbers, SSNs, passports, birth certificates, financial records, a
 
 ## 17. Implementation and Onboarding
 
-| Vendor        | Migration support | Documented importers | Training resources | Self-service configuration | Published timelines | Support model |
-| ------------- | ----------------- | -------------------- | ------------------ | -------------------------- | ------------------- | ------------- |
-| _Vendor name_ | —                 | —                    | —                  | —                          | —                   | —             |
+| Vendor        | Documented importers | Training resources | Self-service configuration | Support model |
+| ------------- | -------------------- | ------------------ | -------------------------- | ------------- |
+| _Vendor name_ | —                    | —                  | —                          | —             |
 
-- **Migration support:** Whether migration is included, separately priced, or DIY, and which source systems have named migration paths (INSZoom, LawLogix, Clio, MyCase, spreadsheets).
 - **Documented importers:** Published import templates and field mappings. Their existence — and how granular they are — is a good independent read on how structured the data model is.
 - **Training resources:** A public help center, video library, certification program, and user community. Depth here predicts how much your staff can solve without opening a ticket.
 - **Self-service configuration:** Whether templates, workflows, questionnaires, custom fields, and statuses are admin-configurable, or require a paid services engagement each time.
-- **Published timelines:** Any stated typical go-live time. Rarely published, so `NS` is common here; a vendor that does publish one is worth taking seriously.
 - **Support model:** Support channels, hours and time zones, named CSM, and whether a published SLA exists at your tier.
 
 ## 18. Cost and Vendor Risk
@@ -314,37 +297,3 @@ You'll hold A-numbers, SSNs, passports, birth certificates, financial records, a
 - **Vendor stability:** Ownership, funding history, acquisitions, and headcount trend. This space has consolidated significantly, so confirm who owns the product today and whether it's still being invested in rather than harvested.
 - **Reference base:** Named customers, case studies, and third-party review volume and recency. Recent reviews from firms your size and practice mix are worth more than a logo wall.
 
----
-
-## Appendix A. Questions That Need a Demo
-
-These are deliberately **not** in the tables above, because no marketing page can answer them honestly. Keep them as your demo script, and don't let a vendor answer them from a slide.
-
-- **The scenario test.** "An H-1B case is opened for an existing employee of an existing corporate client." Count the manual actions needed to send the questionnaire, request documents, assign paralegal tasks, calculate deadlines, generate drafts, route attorney review, collect signatures, file, notify stakeholders, and schedule expiration reminders. Repeat for a PERM and an RFE response.
-- **Where the data actually lives.** Have them show you one beneficiary's passport number everywhere it appears, then change it once. Whether the change propagates is the entire test.
-- **Form fidelity.** Print a completed I-129 bundle and inspect barcodes, page breaks, and signature blocks.
-- **Prepopulation in practice.** Open a second matter for the same beneficiary and see what's already filled before anyone types anything.
-- **AI accuracy.** Run their extraction and drafting against five of your own closed files and grade the output yourself.
-- **Inbound email behavior.** Reply to a portal notification from an ordinary email client and find out where it lands.
-- **HR scoping.** Log in as an HR user and try to reach an employee or a document they shouldn't see.
-- **Reporting.** Hand them the operational questions from section 12 and have them build the reports live.
-- **Import quality.** Give them a real export from your current system and have them import it, then check what got dropped.
-- **Support under load.** Ask for March and April response-time data, and for references you select from their customer list rather than ones they pick.
-
-## Appendix B. Where to Look
-
-| Source                                                       | What it settles                                                       |
-| ------------------------------------------------------------ | --------------------------------------------------------------------- |
-| Pricing page                                                 | Pricing model, tiers, which features are gated or add-ons             |
-| Help center / knowledge base                                 | Data model, permissions, questionnaires, checklists, statuses         |
-| Release notes / changelog                                    | Form edition cadence, release velocity, whether the product is alive  |
-| Developer docs                                               | API existence and shape, auth, object coverage, webhooks, rate limits |
-| Trust center / security page                                 | SOC 2 Type II, ISO 27001, encryption, SSO, pen tests                  |
-| DPA, terms, and subprocessor list                            | Model providers, AI training terms, retention, residency, breach notice |
-| App marketplaces (AppSource, Google Workspace, DocuSign, Zapier, Okta) | Which integrations are real, native, and maintained          |
-| App Store / Google Play                                      | Mobile apps, update recency, supported languages, user sentiment      |
-| Status page                                                  | Uptime history and incident transparency                              |
-| G2 / Capterra                                                | Review recency and volume, segmented by firm size                     |
-| LinkedIn / Crunchbase / trade press                          | Ownership, funding, headcount trend, acquisitions                     |
-
-Record the date you checked each source. Form editions, fee schedules, pricing, integration lists, and subprocessor lists all change, and a comparison built from undated evidence goes stale without ever looking wrong.
