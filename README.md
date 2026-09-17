@@ -55,6 +55,7 @@ Treat this table as a structured, sourced starting point that tells you where to
 16. [Data Governance and Portability](#16-data-governance-and-portability)
 17. [Implementation and Onboarding](#17-implementation-and-onboarding)
 18. [Cost and Vendor Risk](#18-cost-and-vendor-risk)
+19. [Pairing a Platform with a Separate AI Layer](#19-pairing-a-platform-with-a-separate-ai-layer)
 
 ---
 
@@ -737,6 +738,90 @@ You'll hold A-numbers, SSNs, passports, birth certificates, financial records, a
 - **Roadmap and release cadence:** A public changelog with dated entries across the last twelve months, and a public roadmap if one exists. Two quiet quarters is a signal, especially after an acquisition.
 - **Vendor stability:** Ownership, funding history, acquisitions, and headcount trend. This space has consolidated significantly, so confirm who owns the product today and whether it's still being invested in rather than harvested.
 - **Reference base:** Named customers, case studies, and third-party review volume and recency. Recent reviews from firms your size and practice mix are worth more than a logo wall.
+
+
+## 19. Pairing a Platform with a Separate AI Layer
+
+The tables above assume you are buying one product. A second strategy is to buy a strong fundamental platform and a distinct AI drafting and review tool beside it. That is a real option — seven of the seventeen vendors here are AI point solutions rather than systems of record — but it should be chosen on its merits, not drifted into.
+
+When AI moves out of the platform, the platform's own AI scores stop mattering. Docketwise's `2` on drafting (§9) is irrelevant if you never use it. The platform is then judged on its forms engine, deadlines, integrations and data portability; the AI tool on drafting, extraction and governance. That reshuffles the ranking — and introduces one risk that does not exist in the single-vendor case.
+
+### The test that decides it: complementary, not overlapping
+
+Not every product sold as an "AI layer" is one. Some are partial platforms, and pairing with those recreates precisely the failure this README warns about in [§11](#11-data-model-and-extensibility) — the same fact copied across a questionnaire, a contact record, an I-129 and an I-140 until the copies disagree.
+
+- **Parley extracts passport, I-94 and I-797 data into I-129 and I-140 fields**[^pa-s15]. That is a forms engine. Pair it with a platform and two systems both believe they hold the authoritative beneficiary record.
+- **Visalaw.ai does not.** It is research, drafting, summarization and translation sitting beside your forms engine. Its extraction scores `2` (§9) *because* it does not write structured fields — in a pairing, that is the feature.
+
+So the test is simple: **does the AI tool generate or hold form data?** If yes, you are buying a second system of record, and should price the reconciliation work. If no, you are buying a genuine layer.
+
+### Can the platform even hand data over?
+
+Pairing only works if data can move. On the evidence, most of this market cannot:
+
+| Platform | Public API | Webhooks / sandbox | Structured export |
+| -------- | ---------- | ------------------ | ----------------- |
+| **Docketwise** | **4** — public OAuth2 REST docs, 10 resources[^dw-s34][^dw-s35] | 2 — none documented; Zapier triggers only | 3 — CSV of contacts, matters, reports[^dw-s38] |
+| INSZoom | 3 — overview article, no endpoint reference | 3 — webhooks article, no event list[^iz-s18] | 2 — inbound migration only |
+| BlueDot | 2 — priced API, no endpoint docs, but ships an **MCP server**[^bd-s8] | `NS` | 2 — reports and Power BI, no full case export |
+| eIMMIGRATION | `NS` — API exists, docs on request only | `NS` | 2 — Excel and PDF reports |
+| CampLegal | `NS` — no API, no docs subdomain | `NS` | `NS` — **no structured export documented at all** |
+
+Two things follow. **Docketwise is the only platform here with genuinely public API documentation**, which makes it the only one you could integrate against without a sales conversation. And **CampLegal has neither an API nor a documented export**, which should rule it out of any pairing strategy — and is worth weighing even for single-vendor use, since you cannot get your data out.
+
+The irony is that the platform with the best API has no announced AI partnership, while the two platforms that *do* ship Visalaw.ai integrations — eIMMIGRATION[^ei-s26] and INSZoom — publish no usable API. BlueDot's productized MCP server is the most forward-looking answer to this problem in the set, but its forms score `2` and it has no e-signature (§1, §8).
+
+```mermaid
+flowchart TD
+    P0(["Pairing path: platform plus a separate AI layer"]) --> P1{"Does the AI tool also<br/>generate or hold form data?"}
+
+    P1 -->|"Yes — it overlaps"| OVER["Two systems of record for the<br/>same beneficiary data.<br/>Price the reconciliation — see section 11"]
+    P1 -->|"No — it complements"| P2{"How does data move<br/>between them?"}
+
+    P2 -->|"Platform public API"| API["Docketwise<br/>only platform with public<br/>OAuth2 REST documentation"]
+    P2 -->|"Shipped partnership"| NAT["eIMMIGRATION or INSZoom<br/>both ship Visalaw.ai integrations"]
+    P2 -->|"Neither"| MAN["Manual handoff only.<br/>Workable for drafting,<br/>not for field write-back"]
+
+    API --> P3{"Governance or<br/>capability first?"}
+    NAT --> P3
+    MAN --> P3
+
+    P3 -->|"Governance"| R1["Docketwise + Visalaw.ai"]
+    P3 -->|"Lowest friction and cost"| R2["eIMMIGRATION + Visalaw.ai"]
+    P3 -->|"Capability ceiling"| R3["Docketwise + Parley<br/>accepts five NS governance cells"]
+
+    classDef pick fill:#1a4d2e,stroke:#2d7a4d,color:#fff
+    classDef warn fill:#5c3a1a,stroke:#8a5a2b,color:#fff
+    class R1,R2 pick
+    class OVER,R3 warn
+```
+
+### The three pairings
+
+**1. Docketwise + Visalaw.ai — the defensible pair.** The strongest forms engine (§1) with the only AI vendor here that documents real governance: a privacy policy barring training on queries and outputs[^vl-s6], a zero-retention policy backed by a no-retention model API[^vl-s5], logical tenant separation, and SOC 2 Type II asserted with ISO/IEC 42001 alignment (§10, §15). Both publish pricing[^dw-s9][^vl-s3]. No function overlap. **Cost:** no native integration, so the handoff is manual — tolerable for a drafting workspace, unworkable if you wanted field write-back.
+
+**2. eIMMIGRATION + Visalaw.ai — the low-friction pair.** Already natively integrated, so drafting happens without leaving the case[^ei-s26], and part of it sits in the base price. Cheapest platform seat at $55[^ei-s2]. **Cost:** it fixes the AI governance story while leaving the *platform* governance story weak — Cerenade cites Azure's certifications rather than holding its own SOC 2, and its privacy policy states data is retained indefinitely (§15, §16). A client security questionnaire will ask about the platform, not only the AI.
+
+**3. Docketwise + Parley — the capability ceiling.** Parley is the only tool in this comparison that parses an RFE into discrete requests and maps each to existing evidence, scoring `4`[^pa-s13], with extraction also at `4`[^pa-s15]. Docketwise's public API makes a real integration buildable. **Cost:** all six AI-governance cells are `NS` (§10) — no training commitment, no model disclosure, no retention policy, no tenant isolation, no admin controls — from a YC S24 company with roughly $500K raised and no published pricing[^pa-s21]. Strong capability, weak paperwork.
+
+### What pairing actually costs
+
+Illustrative, at published rates for a six-person firm, annual billing, licensing the AI tool only to the people who draft:
+
+| Configuration | Platform | AI seats | Monthly |
+| ------------- | -------- | -------- | ------- |
+| Docketwise alone | 6 × $89 | — | **$534** |
+| Docketwise + 2 × Visalaw Core | 6 × $89 | 2 × $180 | **$894** |
+| Docketwise + 2 × Visalaw Pro | 6 × $89 | 2 × $380 | **$1,294** |
+| eIMMIGRATION + 2 × Visalaw Core | 6 × $70 | 2 × $180 | **$780** |
+
+The AI seat costs two to four times the platform seat, so pairing only makes economic sense if it stays narrow. Firm-wide AI licensing roughly triples the bill.
+
+### The argument against pairing
+
+A second vendor doubles your diligence surface: two DPAs, two subprocessor chains, two SOC 2 reports to chase under NDA, two answers when a corporate client asks how generative AI touches their file, and two sets of obligations under [ABA Formal Opinion 512](https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics-opinions/aba-formal-opinion-512.pdf).
+
+For a firm that expects client security review, that is a real cost and it is easy to underweight next to a capability matrix. The honest summary: **pairing buys materially better drafting and costs a harder compliance story.** Whether that trade is worth it depends on how much RFE and letter-drafting volume you actually have — which is a question about your practice, not about the software.
 
 ---
 
