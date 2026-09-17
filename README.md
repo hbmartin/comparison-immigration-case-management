@@ -36,6 +36,7 @@ Treat this table as a structured, sourced starting point that tells you where to
 
 ### Contents
 
+0. [Decision Tree](#decision-tree) and [Ranked Shortlist](#ranked-shortlist-small-mixed-practice-firm)
 1. [Forms Engine](#1-forms-engine-usually-the-deciding-factor)
 2. [Case Type Coverage](#2-case-type-coverage)
 3. [Deadline and Status Tracking](#3-deadline-and-status-tracking)
@@ -86,6 +87,112 @@ One row per vendor, filled in before you score anything else. Every cell here is
 - **Public pricing / API docs / trust center:** Three independent proxies for how much a vendor will tell you before you're in a sales cycle.
 
 ---
+
+## Decision Tree
+
+This encodes the questions that actually change the answer, in the order they eliminate the most options. It is built from the tables below — every branch is a column you can go verify.
+
+```mermaid
+flowchart TD
+    START(["What are you buying?"]) --> Q1{"A system of record,<br/>or an AI layer on top<br/>of one you keep?"}
+
+    Q1 -->|"AI layer only"| AIQ{"Which capability<br/>is the point?"}
+    AIQ -->|"Research + drafting"| AI1["Visalaw.ai<br/>cited immigration corpus,<br/>best AI governance in the set"]
+    AIQ -->|"Extraction, exhibits, RFE"| AI2["Parley<br/>most specific AI docs,<br/>but seed-stage"]
+    AIQ -->|"Petition drafting"| AI3["CaseBlink / Inception AI<br/>thin public docs —<br/>verify before trusting"]
+
+    Q1 -->|"System of record"| Q2{"Who is the buyer?"}
+
+    Q2 -->|"Corporate in-house"| CORP["INSZoom<br/>HR portal + multi-entity,<br/>but no family or consular"]
+    Q2 -->|"Nonprofit / legal aid"| NGO["CampLegal or LollyLaw<br/>check DOL forms and<br/>current pricing first"]
+    Q2 -->|"Private law firm"| Q3{"Case mix?"}
+
+    Q3 -->|"Removal defense"| EOIR["Verify EOIR + ECAS directly.<br/>Only Docketwise and LollyLaw<br/>name EOIR forms at all"]
+    Q3 -->|"Employment only"| EMP["INSZoom or Imagility"]
+    Q3 -->|"Family + consular only"| FAM["Docketwise<br/>DS-160/DS-260 + CEAC e-file"]
+    Q3 -->|"Both employment<br/>and family"| Q4{"Is SOC 2 Type II<br/>pass/fail today?"}
+
+    Q4 -->|"Yes — a client audits us"| GATE["No immigration-native vendor<br/>clears this cleanly.<br/>Make it a contract term, or take<br/>Filevine and accept thin immigration"]
+    Q4 -->|"No — weighted"| Q5{"Do you need Outlook/Gmail<br/>filing, e-signature and<br/>two-way calendar sync?"}
+
+    Q5 -->|"Yes, all three"| Q6{"What breaks the tie?"}
+    Q5 -->|"Can live without"| Q7{"What breaks the tie?"}
+
+    Q6 -->|"Forms + deadlines"| D1["Docketwise<br/>only vendor passing all three<br/>cleanly, best forms engine"]
+    Q6 -->|"AI drafting + price"| D2["eIMMIGRATION<br/>drafting via Visalaw GEN,<br/>cheapest published seat"]
+
+    Q7 -->|"RFE analysis"| D3["Imagility<br/>only real RFE builder,<br/>but no e-sign, no pricing"]
+    Q7 -->|"USCIS status sync"| D4["BlueDot<br/>direct USCIS API,<br/>best native security posture"]
+
+    classDef pick fill:#1a4d2e,stroke:#2d7a4d,color:#fff
+    classDef warn fill:#5c3a1a,stroke:#8a5a2b,color:#fff
+    class D1,D2,AI1 pick
+    class GATE,D3,EOIR warn
+```
+
+**How to read it.** The SOC 2 branch is the one that surprises people: it is placed before feature tie-breakers because it eliminates on a dimension features cannot compensate for. The three-integration gate sits next because Outlook/Gmail filing, e-signature and two-way calendar sync are each individually common and jointly rare — four otherwise-credible vendors fail on at least one.
+
+---
+
+## Ranked Shortlist: Small Mixed-Practice Firm
+
+**The profile this ranking assumes.** Private law firm, 3–10 people, meaningful volume in *both* employment-based and family-based work, replacing spreadsheets and Word templates, wants one system of record with AI drafting preferred but acceptable as a separate product. Hard requirements: Outlook or Gmail email filing, e-signature, two-way calendar sync, and document-collection status tracking. SOC 2 Type II anticipated within a year rather than demanded today. Deciding within a month, so published pricing and self-service onboarding carry real weight. Tie-breakers: forms engine, deadline reliability, AI drafting.
+
+**Re-weight it if your profile differs** — the ranking is a function of those inputs, not an absolute quality ordering. Corporate in-house or removal-defense practices invert much of it.
+
+### 1. Docketwise
+
+The only candidate that passes all three integration requirements on documented evidence: Gmail add-on *and* Outlook add-in that file to a matter, native e-signature with assignable signer fields, and native two-way calendar sync (§7, §8, §13). It also has the best-documented form library in the set — the only one naming USCIS, DOS, DOL *and* EOIR coverage including DS-160, ETA-9089 and ETA-9141 (§1) — and the only Visa Bulletin tracking that handles both the Final Action and Dates for Filing charts (§3). Published at $69/$89/$109 per user per month (§18), which suits a one-month decision.
+
+**What you are accepting:** AI drafting is rewrite-and-translate only, not petition letters or RFE responses (§9). Document-collection status scores 2 — no evidence of distinct requested/received/reviewed states, which is one of your stated requirements. I-94, EAD and passport expiration tracking returned `NS` (§3). Ask about all three in the demo.
+
+### 2. eIMMIGRATION by Cerenade
+
+Very close second, and it wins outright if AI drafting or budget leads. It is the only system of record in this set with genuinely immigration-specific AI drafting — via a native Visalaw.ai GEN integration — alongside Extractor AI mapping passport and PDF data into fields, both scoring 4 (§9). Cheapest published pricing at $55/$70/$85 per user per month (§18), it does track expiration reminders up to 180 days out where Docketwise is silent (§3), and its help center is among the deepest here (§17).
+
+**What you are accepting:** the integration evidence is weaker — Outlook, Gmail and calendar are listed as native but filing-to-matter behaviour is not documented and there is no marketplace listing to corroborate it (§7, §13). Document-collection states are `NS`. Two governance findings matter given where you are heading: it cites *Azure's* certifications rather than holding its own SOC 2, and its privacy policy states data is retained indefinitely (§15, §16).
+
+### 3. CampLegal
+
+Credible and honestly priced at $79–$99 per user per month, with e-signature as a workflow action and reasonable coverage across both your practice areas (§2, §8, §18).
+
+**Why not higher:** email capture is `NS` — no Outlook or Gmail filing documented at all, which fails one of your three hard requirements outright. No Visa Bulletin or priority-date tracking, no I-94/EAD expiration tracking, and no SOC 2, ISO or pen-test evidence of any kind (§3, §15).
+
+### 4. Imagility
+
+The most interesting product here and the one I would most want to be wrong about. It has the only real RFE Response Builder in the entire comparison — scoring 4 where every other vendor is `NS` — plus petition drafting, and the broadest named case-type coverage across employment *and* family, both scoring 4 (§2, §9). That is precisely your tie-breaker profile.
+
+**Why it ranks fourth anyway:** it fails all three of your hard integration requirements. No e-signature found at all, email capture and calendar evidenced only through third-party directories with no mechanism described (§7, §8, §13). It publishes no pricing, which is hard to reconcile with a one-month timeline. Status sync is manual receipt upload rather than USCIS integration (§3). Worth a demo specifically to test whether the integration gaps are real or merely undocumented.
+
+### 5. BlueDot
+
+Strongest USCIS status sync in the set — a direct government API with overnight automatic checks and email alerts — and the best security posture of any immigration-native vendor here, with SOC 2 Type II stated and unusually specific AI-governance language including a no-training commitment binding its AI providers (§3, §10, §15).
+
+**Why not higher:** no e-signature and no documented email filing, failing two hard requirements. Thin forms evidence — it claims all USCIS forms but publishes no list, and DOS and DOL coverage is unverified. No consular support found, which matters for your family practice (§1, §2).
+
+### Ruled out, and why
+
+| Vendor | Reason |
+| ------ | ------ |
+| **INSZoom** | No family, consular or Visa Bulletin coverage found, no e-signature, no published pricing. Built for corporate in-house teams — a different buyer than you. |
+| **LollyLaw** | No DOL forms named, which rules out PERM and LCA work. No e-signature, no AI of any kind, and a changelog with no entries past 2023. |
+| **LawLogix Edge** | No product announcement since 2019, no AI, no pricing, no security evidence. Reads as harvest mode under Equifax. |
+| **Filevine** | Best security documentation in the comparison, but immigration case-type coverage is `NS` across employment, family *and* consular. A general platform with a thin bolt-on. |
+| **Lawfully Pro, Visalaw.ai, Parley, CaseBlink, Inception AI, Legal Bridge, OpenSphere, Formally** | Not systems of record. Several are strong at what they do — see the pairing note below. |
+
+### The pairing question
+
+You said AI can be a separate product, and that matters here: **no system of record in this set does RFE analysis except Imagility.** If RFE work is real volume for you, the honest answer is a pair, not a single tool.
+
+- **Docketwise + Visalaw.ai** — strongest forms engine with the best-governed AI. Visalaw publishes a no-training commitment, a zero-retention stance and SOC 2 Type II with ISO/IEC 42001 alignment (§10, §15). Adds $180–$380 per user per month, so price it against seats that actually need it.
+- **eIMMIGRATION + Visalaw.ai** — already integrated natively, so this is the lowest-friction pairing and part of it is in the base price.
+- **Docketwise + Parley** — Parley documents drafting, extraction, exhibit assembly and RFE analysis more specifically than anyone (§9), but it is YC S24 with roughly $500K raised. You said best product wins; just size the risk.
+
+### The thing that should worry you
+
+Your security requirement is anticipated within a year, and **the immigration-native category is not ready for it.** Every one of the nine systems of record scores `NS` on subprocessor lists (§16). Only BlueDot claims SOC 2 Type II; Docketwise, eIMMIGRATION, INSZoom and Imagility all score 2, meaning a claim without a verifiable report, and four publish nothing at all (§15).
+
+So whichever you pick, do this during the sales cycle rather than after: ask for the SOC 2 Type II report under NDA and check that it is Type II with a current period, ask for the DPA and a dated subprocessor list with change notification, and get a written no-training commitment covering the vendor's model providers, not just the vendor. Put them in the contract while you still have leverage. If a vendor cannot produce them in a month, that is your answer about what year two looks like.
 
 ## 1. Forms Engine
 
